@@ -186,12 +186,12 @@ module.exports = {
                         client.say(channel, `Clip was successfully created: ${clip.url}`);
                         clearInterval(intervalId);
                     }
-                    if (count >= 15 && !isCreated) {
+                    if (count >= 7 && !isCreated) {
                         client.say(channel, `Error while creating the clip.`);
                         clearInterval(intervalId);
                     }
                     count++;
-                }, 1000);
+                }, 2500);
             }
         });
     }

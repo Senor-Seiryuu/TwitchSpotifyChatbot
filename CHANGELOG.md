@@ -3,6 +3,7 @@
 - Fixed a bug, where channel name wasn't correctly retrieved on chat messages
 - Fixed a bug with the !clip command
 - Fixed another bug while waiting for clip
+- Changed count and syncInterval for Clip waiting
 
 ### Modified
 - Added information to README
