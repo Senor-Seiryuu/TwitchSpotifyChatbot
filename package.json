@@ -1,0 +1,16 @@
+{
+    "name": "twitch-spotify-bot",
+    "version": "1.0.0",
+    "description": "This is a twitch chatbot, which is posting song requests to spotify queues or post current playing song in twitch chat. Can also post recently played or create clips.",
+    "main": "src/main.js",
+    "scripts": {
+        "start": "node src/main.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "express": "^4.18.1",
+        "tmi.js": "^1.8.5"
+    }
+}
