@@ -32,12 +32,15 @@ module.exports = {
 
         // Handle Song requests bought with twitch reward points
         client.on('redeem', async (channel, username, rewardType, tags, message) => {
+            channel = channel.substring(1);
+
             if(rewardType != rewardID || processSongRequests === "false") return;
+            
             getTwitchToken();
-            const isOnline = await isStreamerLive(channel.name);
+            const isOnline = await isStreamerLive(channel);
 
             if (isOnline) {
-                client.say("Song requests are not processed, while the stream is offline.");
+                client.say(channel, "Song requests are not processed, while the stream is offline.");
                 return;
             }
 
@@ -162,7 +165,7 @@ module.exports = {
                 
                 if (response.status == 403){
                     console.log("Forbidden to get the broadcaster_id from the streamer.");
-                    client.say("Forbidden to get the broadcaster_id from the streamer.");
+                    client.say(channel, "Forbidden to get the broadcaster_id from the streamer.");
                     return;
                 }
 
