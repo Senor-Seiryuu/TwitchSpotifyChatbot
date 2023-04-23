@@ -195,7 +195,7 @@ module.exports = {
                         client.say(channel, `Clip was successfully created: ${clip.url}`);
                         clearInterval(intervalId);
                     }
-                    if (count >= 7 && !isCreated) {
+                    if (count >= 5 && !isCreated) {
                         client.say(channel, `Error while creating the clip.`);
                         clearInterval(intervalId);
                     }
