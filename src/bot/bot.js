@@ -190,7 +190,7 @@ module.exports = {
                         client.say(channel, `Error while creating the clip.`);
                         clearInterval(intervalId);
                     }
-
+                    count++;
                 }, 1000);
             }
         });
