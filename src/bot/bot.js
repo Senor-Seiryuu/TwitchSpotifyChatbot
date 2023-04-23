@@ -59,9 +59,11 @@ module.exports = {
         });
 
         client.on('message', async (channel, context, message) => {
+            channel = channel.substring(1);
+            
             getTwitchToken();
             getSpotifyToken()
-            const isOnline = await isStreamerLive(channel.name);
+            const isOnline = await isStreamerLive(channel);
             const isNotBot = context.username.toLowerCase() !== "maccesdj";
 
             var regexSongCmd = /^!song\s*(\d+)?/;
@@ -140,7 +142,7 @@ module.exports = {
             }
 
             if (matchClipCmd) {
-                var response = await fetch(`https://api.twitch.tv/helix/users?login=${channel.name}`, {
+                var response = await fetch(`https://api.twitch.tv/helix/users?login=${channel}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         'Client-Id': twitchClientID
@@ -174,7 +176,11 @@ module.exports = {
                     });
                     json = await response.json();
                     var clip = json.data[0];
-                    if (clip.url != null) isCreated = true;
+                    try {
+                        if (clip.url != null) isCreated = true;
+                    } catch (error) {
+                        console.log(`Waiting for clip... `);
+                    }
 
                     if (isCreated) {
                         client.say(channel, `Clip was successfully created: ${clip.url}`);

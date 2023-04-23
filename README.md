@@ -2,6 +2,7 @@
 
 This is a Twitch chatbot that integrates with Spotify to provide music-related commands for your Twitch channel. The bot supports the following commands:
 
+- Checks if stream is online
 - Viewers can use Twitch rewards to make song requests
 - `!song`: Posts the current playing song in the chat.
 - `!song 2`: Posts the recently played songs, up to 50.
