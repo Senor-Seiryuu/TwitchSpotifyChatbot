@@ -4,6 +4,7 @@
 - Fixed a bug with the !clip command
 - Fixed another bug while waiting for clip
 - Changed count and syncInterval for Clip waiting
+- Added error handling for getting broadcaster_id of channel/streamer
 
 ### Modified
 - Added information to README

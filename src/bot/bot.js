@@ -159,6 +159,12 @@ module.exports = {
                         'Client-Id': twitchClientID
                     }
                 });
+                
+                if (response.status == 403){
+                    console.log("Forbidden to get the broadcaster_id from the streamer.");
+                    client.say("Forbidden to get the broadcaster_id from the streamer.");
+                    return;
+                }
 
                 json = await response.json();
                 var respData = json.data[0];
