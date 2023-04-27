@@ -270,6 +270,12 @@ async function isStreamerLive(streamer) {
     });
 
     const data = await response.json();
-    if (data.data.length !== 0) return true;
+    if (data.data.length !== 0)
+    {
+      streamStartedAt = data.data[0].started_at;
+      return true;
+    }
+    const nowTimestamp = new Date();
+    streamStartedAt = nowTimestamp.toUTCString();
     return false;
 }
