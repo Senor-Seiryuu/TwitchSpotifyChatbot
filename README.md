@@ -1,6 +1,6 @@
 # Twitch Chatbot with Spotify Integration for Song Requests and Clips
 
-This is a Twitch chatbot that integrates with Spotify to provide music-related commands for your Twitch channel. The bot supports the following commands:
+This is a Twitch chatbot that integrates with Spotify to provide music-related commands and more for your Twitch channel. The bot supports the following commands:
 
 - Checks if stream is online
 - Viewers can use Twitch rewards to make song requests
