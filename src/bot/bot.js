@@ -12,6 +12,7 @@ const processSongRequests = process.env.SONG_REQUESTS;
 
 var spotifyToken = "";
 var twitchToken = "";
+var streamStartedAt = "";
 
 module.exports = {
 
@@ -111,9 +112,16 @@ module.exports = {
                     const songItem = data.items[reqOffset - 1];
                     const artistNames = songItem.track.artists.map(artist => artist.name).join(', ');
                     const spotifyLink = songItem.track.external_urls.spotify;
-
-                    const date = new Date(songItem.played_at);
-                    const playedAt = date.toLocaleString("de-DE", options = { timeZone: "Europe/Berlin", hour12: false });
+                    
+                    const streamStart = new Date(streamStartedAt);
+                    const songTimestamp = new Date(songItem.played_at);
+                    const playedAt = songTimestamp.toLocaleString("de-DE", options = { timeZone: "Europe/Berlin", hour12: false });
+                    
+                    if( songTimestamp.getTime() < streamStart.getTime())
+                    {
+                        client.say(channel, "Forbidden. The requested song wasn't played during the stream.");
+                        return;
+                    }
 
                     client.say(channel, `${songItem.track.name} \nby ${artistNames} \nfrom the album ${songItem.track.album.name} \nLink: ${spotifyLink} \nPlayed at: ${playedAt}`);
                     return;
@@ -130,11 +138,10 @@ module.exports = {
                     client.say(channel, "The Spotify API returned an error while getting the current playing song.");
                     console.log('Something went wrong when retrieving the current playing track');
                 }
-
-                const data = await response.json();
-                if (!data.item) {
-                    client.say(channel, "No track is currently playing.");
-                    return;
+                
+                if (response.status === 204) {
+                  client.say(channel,'No song is currently playing.');
+                  return;
                 }
 
                 const { name: title, artists, album, external_urls } = data.item;
@@ -147,10 +154,16 @@ module.exports = {
             if (matchClipCmd) {
                 var response = await fetch(`https://api.twitch.tv/helix/users?login=${channel}`, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${twitchToken}`,
                         'Client-Id': twitchClientID
                     }
                 });
+                
+                if(!response.ok)
+                {
+                   client.say(channel, `Error while obtaining streamer id | Status-Code: ${response.status}`);
+                   return;
+                }
 
                 var json = await response.json();
                 var user = json.data[0];
@@ -158,7 +171,7 @@ module.exports = {
                 response = await fetch(`https://api.twitch.tv/helix/clips?broadcaster_id=${user.id}`, {
                     method: 'POST',
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${twitchToken}`,
                         'Client-Id': twitchClientID
                     }
                 });
@@ -179,7 +192,7 @@ module.exports = {
                 const intervalId = setInterval(async () => {
                     response = await fetch(`https://api.twitch.tv/helix/clips?id=${respData.id}`, {
                         headers: {
-                            Authorization: `Bearer ${accessToken}`,
+                            Authorization: `Bearer ${twitchToken}`,
                             'Client-Id': twitchClientID
                         }
                     });
