@@ -44,7 +44,9 @@ Also you have to specify the reward id of the twitch reward, that should trigger
 
 4. After downloading the repository, you will need to generate a certificate and key and place them in the `/src/certificates/` directory.
 
-5. Start the bot by running `npm start` in the project root directory.
+5. Create the directories `/log` and `/src/bot/tokens`, if not already present.
+
+6. Start the bot by running `npm start` in the project root directory.
 
 ### Usage
 
